@@ -7,7 +7,6 @@ module Sequel::Plugins::Geocoder
 
     # Include some of the dataset methods in the model class itself.
     [
-      :geocoder_options,
       :geocoded,
       :not_geocoded
     ].each do |m|
@@ -27,8 +26,12 @@ module Sequel::Plugins::Geocoder
     end
 
     private
+    # Since sequel 5.0.0 datasets are frozen by default, so
+    # the way to set the geocoder options to the dataset is to add them
+    # the opts hash.
     def geocoder_init(options)
-      dataset.geocoder_options = options
+      new_dataset = dataset.clone(geocoder_options: options)
+      self.set_dataset(new_dataset)
     end
   end
 end

@@ -3,7 +3,10 @@ require 'sequel-geocoder/sql'
 
 module Sequel::Plugins::Geocoder
   module DatasetMethods
-    attr_accessor :geocoder_options
+
+    def geocoder_options
+      opts[:geocoder_options]
+    end
 
     # See Geocoder::Store::ActiveRecord.included generated scope.
     def geocoded
